@@ -1,0 +1,18 @@
+version: '3'
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    env_file:
+      - .env
+    container_name: 'delivery_service_main'
+    ports:
+      - 4005:4005
+      - 9229:9229
+    volumes:
+      - ./:/usr/local/app
+      - nodeModules:/usr/local/app/node_modules
+volumes:
+  nodeModules:

@@ -1,0 +1,3 @@
+class RecipientLocationCarrierIsAboutToArrive {}
+
+export default RecipientLocationCarrierIsAboutToArrive;
