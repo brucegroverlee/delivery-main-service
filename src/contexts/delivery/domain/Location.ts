@@ -1,4 +1,4 @@
-export interface LocationJSON {
+export interface LocationProperties {
   address: string;
   latitude: number;
   longitude: number;
@@ -9,13 +9,13 @@ class Location {
   readonly latitude: number;
   readonly longitude: number;
 
-  private constructor(data: LocationJSON) {
+  private constructor(data: LocationProperties) {
     this.address = data.address;
     this.latitude = data.latitude;
     this.longitude = data.longitude;
   }
 
-  public static create(data: LocationJSON): Location {
+  public static create(data: LocationProperties): Location {
     // validate
 
     const location = new Location(data);

@@ -7,3 +7,5 @@ import deliveryRouter from '../contexts/delivery/infrastructure/express/router';
 const httpServer = new ExpressApp([deliveryRouter]);
 
 httpServer.start([sequelizeApp.connect(), rabbitmqApp.connect()]);
+
+export { httpServer };

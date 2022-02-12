@@ -14,10 +14,6 @@ abstract class AggregateRoot {
   protected addDomainEvent(event: DomainEvent): void {
     this.domainEvents.push(event);
   }
-
-  public abstract toJSON(): any;
-
-  // abstract fromJSON(data: any): AggregateRoot;
 }
 
 export default AggregateRoot;

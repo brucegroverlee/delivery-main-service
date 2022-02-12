@@ -9,6 +9,7 @@ class SequelizeApp {
       host: config.mysql.host,
       port: config.mysql.port as number,
       dialect: 'mysql',
+      logging: false,
     });
   }
 

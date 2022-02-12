@@ -71,6 +71,10 @@ class RabbitmqApp {
     }
   }
 
+  public async close() {
+    await this.connection!.close();
+  }
+
   private async proxyCallback(payload: amqp.ConsumeMessage | null): Promise<void> {
     if (!payload) {
       logger("The message's payload is empty");
