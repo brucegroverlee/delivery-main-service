@@ -1,12 +1,12 @@
 import request from 'supertest';
-import { httpServer } from '../../../../../apps/server';
-import rabbitmqHttpApi from '../../../../../infrastructure/rabbitmq/rabbitmqHttpApi';
-import ExpressPresenter from '../../../../shared/infrastructure/express/ExpressPresenter';
-import DeliveryStatus from '../../../domain/DeliveryStatus';
-import DeliveryFareCalculated from '../../../domain/events/DeliveryFareCalculated';
-import DeliveryDomainEventDTO from '../../DeliveryDomainEventDTO';
-import DeliveryDTO from '../../DeliveryDTO';
-import { DeliveryModel } from '../../sequelize/SequelizeDeliveryRepository';
+import { httpServer } from '../../../../../../../apps/server';
+import rabbitmqHttpApi from '../../../../../../../infrastructure/rabbitmq/rabbitmqHttpApi';
+import ExpressPresenter from '../../../../../../shared/infrastructure/express/ExpressPresenter';
+import DeliveryStatus from '../../../../../domain/DeliveryStatus';
+import DeliveryFareCalculated from '../../../../../domain/events/DeliveryFareCalculated';
+import DeliveryDomainEventDTO from '../../../../DeliveryDomainEventDTO';
+import DeliveryDTO from '../../../../DeliveryDTO';
+import { DeliveryModel } from '../../../../sequelize/SequelizeDeliveryRepository';
 import RecipientAcceptRequestControllerMother from './RecipientAcceptRequestControllerMother';
 
 describe('PATCH /deliveries/:deliveryId/recipient-accept-request', () => {

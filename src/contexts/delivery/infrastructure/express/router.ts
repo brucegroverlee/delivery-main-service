@@ -1,7 +1,7 @@
 import express from 'express';
 
-import createDeliveryController from './controllers/createDeliveryController';
-import recipientAcceptRequestController from './controllers/recipientAcceptRequestController';
+import createDeliveryController from './controllers/createDelivery';
+import recipientAcceptRequestController from './controllers/recipientAcceptRequest';
 
 const deliveries = express.Router();
 
