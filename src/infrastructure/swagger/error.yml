@@ -1,0 +1,12 @@
+components:
+  schemas:
+    Error:
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Something went wrong :(

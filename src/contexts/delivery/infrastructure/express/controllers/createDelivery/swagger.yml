@@ -1,0 +1,92 @@
+paths:
+  /deliveries:
+    post:
+      tags:
+        - Deliveries
+      summary: Create a new delivery
+      description:
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderId:
+                  type: string
+                  format: uuid
+                  description: UUIDv4
+                  example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                senderLocation:
+                  $ref: '#/components/schemas/Location'
+                recipientId:
+                  type: string
+                  format: uuid
+                  description: UUIDv4
+                  example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                recipientLocation:
+                  $ref: '#/components/schemas/Location'
+      responses:
+        '201':
+          description: Delivery has been created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderLocation:
+                    $ref: '#/components/schemas/Location'
+                  recipientId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  recipientLocation:
+                    $ref: '#/components/schemas/Location'
+                  status:
+                    type: integer
+                    description:
+                    example: 0
+                  fare:
+                    type: number
+                    nullable: true
+                    description: The price of the ride
+                    example: null
+                  carrierId:
+                    type: string
+                    nullable: true
+                    format: uuid
+                    description: UUIDv4
+                    example: null
+                  startedTime:
+                    type: string
+                    nullable: true
+                    example: null
+                  completedTime:
+                    type: string
+                    nullable: true
+                    example: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: Not Acceptable. There is an attribute invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

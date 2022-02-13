@@ -1,0 +1,44 @@
+components:
+  schemas:
+    Delivery:
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+        senderId:
+          type: string
+          format: uuid
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+        senderLocation:
+          $ref: '#/components/schemas/Location'
+        recipientId:
+          type: string
+          format: uuid
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+        recipientLocation:
+          $ref: '#/components/schemas/Location'
+        status:
+          type: integer
+          description:
+          example: 0
+        fare:
+          type: number
+          nullable: true
+          description: The price of the ride
+          example: 15.80
+        carrierId:
+          type: string
+          nullable: true
+          format: uuid
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+        startedTime:
+          type: string
+          nullable: true
+        completedTime:
+          type: string
+          nullable: true

@@ -1,0 +1,16 @@
+components:
+  schemas:
+    Pagination:
+      properties:
+        page:
+          type: number
+          example: 1
+        perPage:
+          type: number
+          example: 5
+        pages:
+          type: number
+          example: 27
+        total:
+          type: number
+          example: 134

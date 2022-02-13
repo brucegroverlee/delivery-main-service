@@ -1,0 +1,80 @@
+paths:
+  /deliveries/{deliveryId}/recipient-accept-request:
+    patch:
+      tags:
+        - Deliveries
+      summary: Accept the delivery request and calculate fare
+      description: Recipient accepts the delivery request and the delivery fare is calculated
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipientLocation:
+                  $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Delivery has been accepted and the fare was calculated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderLocation:
+                    $ref: '#/components/schemas/Location'
+                  recipientId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  recipientLocation:
+                    $ref: '#/components/schemas/Location'
+                  status:
+                    type: integer
+                    description:
+                    example: 1
+                  fare:
+                    type: number
+                    nullable: true
+                    description: The price of the ride
+                    example: 18.30
+                  carrierId:
+                    type: string
+                    nullable: true
+                    format: uuid
+                    description: UUIDv4
+                    example: null
+                  startedTime:
+                    type: string
+                    nullable: true
+                    example: null
+                  completedTime:
+                    type: string
+                    nullable: true
+                    example: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: Not Acceptable. There is an attribute invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

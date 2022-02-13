@@ -25,6 +25,11 @@ const config = {
     exchangeType: process.env.RABBITMQ_EXCHANGE_TYPE || 'topic',
     queue: process.env.RABBITMQ_QUEUE || '',
   },
+  swagger: {
+    TITLE: process.env.SWAGGER_TITLE || 'Service API',
+    DESCRIPTION: process.env.SWAGGER_DESCRIPTION || '',
+    SERVER: process.env.SWAGGER_SERVER || 'https://localhost:4005',
+  },
 };
 
 export default config;
