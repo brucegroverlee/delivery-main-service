@@ -3,24 +3,24 @@ import { httpServer } from '../../../../../../../apps/server';
 import rabbitmqHttpApi from '../../../../../../../infrastructure/rabbitmq/rabbitmqHttpApi';
 import ExpressPresenter from '../../../../../../shared/infrastructure/express/ExpressPresenter';
 import DeliveryStatus from '../../../../../domain/DeliveryStatus';
-import RecipientRequestRejected from '../../../../../domain/events/RecipientRequestRejected';
+import DeliveryFareAccepted from '../../../../../domain/events/DeliveryFareAccepted';
 import DeliveryDomainEventDTO from '../../../../DeliveryDomainEventDTO';
 import DeliveryDTO from '../../../../DeliveryDTO';
 import { DeliveryModel } from '../../../../sequelize/SequelizeDeliveryRepository';
-import RecipientRejectRequestControllerMother from './RecipientRejectRequestControllerMother';
+import SenderAcceptDeliveryFareControllerMother from './SenderAcceptDeliveryFareControllerMother';
 
-describe('GET /deliveries/:deliveryId/recipient-reject-request', () => {
+describe('GET /deliveries/:deliveryId/sender-accept-fare', () => {
   it('accepts the delivery request', async () => {
     /* Given */
-    const { delivery } = await RecipientRejectRequestControllerMother.givenAJustCreatedDelivery();
+    const { delivery } = await SenderAcceptDeliveryFareControllerMother.givenADeliveryWithFareCalculated();
 
     /* When */
-    const response = await request(httpServer.app).patch(`/deliveries/${delivery.id}/recipient-reject-request`);
+    const response = await request(httpServer.app).patch(`/deliveries/${delivery.id}/sender-accept-fare`);
 
     /* Then */
     const expectedData = {
-      status: DeliveryStatus.REJECTED_BY_RECIPIENT,
-      fare: null,
+      status: DeliveryStatus.DELIVERY_FARE_ACCEPTED_BY_SENDER,
+      fare: delivery.fare,
       carrierId: null,
       startedTime: null,
       completedTime: null,
@@ -35,7 +35,7 @@ describe('GET /deliveries/:deliveryId/recipient-reject-request', () => {
 
     const domainEvent = await rabbitmqHttpApi.findDomainEvent({
       aggregateId: delivery.id,
-      eventName: RecipientRequestRejected.EVENT_NAME,
+      eventName: DeliveryFareAccepted.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
     expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);

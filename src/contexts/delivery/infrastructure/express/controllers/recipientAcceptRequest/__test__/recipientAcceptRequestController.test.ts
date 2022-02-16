@@ -25,7 +25,7 @@ describe('PATCH /deliveries/:deliveryId/recipient-accept-request', () => {
     const expectedData = {
       recipientId: recipient.userId,
       recipientLocation: recipient.userLocation,
-      status: DeliveryStatus.ACCEPTED_BY_RECIPIENT,
+      status: DeliveryStatus.DELIVERY_FARE_CALCULATED,
       carrierId: null,
       startedTime: null,
       completedTime: null,

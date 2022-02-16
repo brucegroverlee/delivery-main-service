@@ -1,15 +1,24 @@
 paths:
-  /deliveries/{deliveryId}/recipient-reject-request:
+  /deliveries/{deliveryId}/recipient-accept-request:
     patch:
       tags:
         - Deliveries
-      summary: Reject the delivery request
-      description: Recipient rejects the delivery request
+      summary: Accept the delivery fare
+      description: Sender accepts the delivery fare
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipientLocation:
+                  $ref: '#/components/schemas/Location'
       responses:
         '200':
-          description: Delivery has been rejected
+          description: The Delivery Fare has been accepted
           content:
             application/json:
               schema:
@@ -37,12 +46,12 @@ paths:
                   status:
                     type: integer
                     description:
-                    example: 2
+                    example: 4
                   fare:
                     type: number
                     nullable: true
                     description: The price of the ride
-                    example: null
+                    example: 18.30
                   carrierId:
                     type: string
                     nullable: true

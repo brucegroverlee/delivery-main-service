@@ -12,6 +12,9 @@ import recipientAcceptRequestBodySchema from './controllers/recipientAcceptReque
 import recipientRejectRequest from './controllers/recipientRejectRequest';
 import recipientRejectRequestParamsSchema from './controllers/recipientRejectRequest/paramsSchema';
 
+import senderAcceptDeliveryFare from './controllers/senderAcceptDeliveryFare';
+import senderAcceptDeliveryFareParamsSchema from './controllers/senderAcceptDeliveryFare/paramsSchema';
+
 const deliveries = express.Router();
 
 deliveries.post('/deliveries', validateBody(createDeliveryBodySchema), createDeliveryController());
@@ -23,10 +26,16 @@ deliveries.patch(
   recipientAcceptRequestController(),
 );
 
-deliveries.get(
+deliveries.patch(
   '/deliveries/:deliveryId/recipient-reject-request',
   validateParams(recipientRejectRequestParamsSchema),
   recipientRejectRequest(),
+);
+
+deliveries.patch(
+  '/deliveries/:deliveryId/sender-accept-fare',
+  validateParams(senderAcceptDeliveryFareParamsSchema),
+  senderAcceptDeliveryFare(),
 );
 
 export default deliveries;
