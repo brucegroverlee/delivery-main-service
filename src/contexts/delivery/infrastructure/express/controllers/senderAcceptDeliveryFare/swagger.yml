@@ -1,5 +1,5 @@
 paths:
-  /deliveries/{deliveryId}/recipient-accept-request:
+  /deliveries/{deliveryId}/sender-accept-fare:
     patch:
       tags:
         - Deliveries
