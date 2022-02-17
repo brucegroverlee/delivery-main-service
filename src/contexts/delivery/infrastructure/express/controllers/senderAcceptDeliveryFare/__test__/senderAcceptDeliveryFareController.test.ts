@@ -9,8 +9,8 @@ import DeliveryDTO from '../../../../DeliveryDTO';
 import { DeliveryModel } from '../../../../sequelize/SequelizeDeliveryRepository';
 import SenderAcceptDeliveryFareControllerMother from './SenderAcceptDeliveryFareControllerMother';
 
-describe('GET /deliveries/:deliveryId/sender-accept-fare', () => {
-  it('accepts the delivery request', async () => {
+describe('PATCH /deliveries/:deliveryId/sender-accept-fare', () => {
+  it('accepts the delivery fare', async () => {
     /* Given */
     const { delivery } = await SenderAcceptDeliveryFareControllerMother.givenADeliveryWithFareCalculated();
 

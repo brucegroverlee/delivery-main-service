@@ -9,8 +9,8 @@ import DeliveryDTO from '../../../../DeliveryDTO';
 import { DeliveryModel } from '../../../../sequelize/SequelizeDeliveryRepository';
 import RecipientRejectRequestControllerMother from './RecipientRejectRequestControllerMother';
 
-describe('GET /deliveries/:deliveryId/recipient-reject-request', () => {
-  it('accepts the delivery request', async () => {
+describe('PATCH /deliveries/:deliveryId/recipient-reject-request', () => {
+  it('rejects the delivery request', async () => {
     /* Given */
     const { delivery } = await RecipientRejectRequestControllerMother.givenAJustCreatedDelivery();
 
