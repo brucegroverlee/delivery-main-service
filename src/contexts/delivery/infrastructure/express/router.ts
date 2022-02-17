@@ -2,6 +2,8 @@ import express from 'express';
 import validateBody from '../../../shared/infrastructure/express/validators/validateBody';
 import validateParams from '../../../shared/infrastructure/express/validators/validateParams';
 
+import deliveryIdParamsSchema from './deliveryIdParamsSchema';
+
 import createDeliveryController from './controllers/createDelivery';
 import createDeliveryBodySchema from './controllers/createDelivery/bodySchema';
 
@@ -14,6 +16,8 @@ import recipientRejectRequestParamsSchema from './controllers/recipientRejectReq
 
 import senderAcceptDeliveryFare from './controllers/senderAcceptDeliveryFare';
 import senderAcceptDeliveryFareParamsSchema from './controllers/senderAcceptDeliveryFare/paramsSchema';
+
+import senderRejectDeliveryFare from './controllers/senderRejectDeliveryFare';
 
 const deliveries = express.Router();
 
@@ -36,6 +40,12 @@ deliveries.patch(
   '/deliveries/:deliveryId/sender-accept-fare',
   validateParams(senderAcceptDeliveryFareParamsSchema),
   senderAcceptDeliveryFare(),
+);
+
+deliveries.patch(
+  '/deliveries/:deliveryId/sender-reject-fare',
+  validateParams(deliveryIdParamsSchema),
+  senderRejectDeliveryFare(),
 );
 
 export default deliveries;

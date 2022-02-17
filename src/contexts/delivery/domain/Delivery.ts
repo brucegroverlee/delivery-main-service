@@ -9,6 +9,7 @@ import DeliveryCreated from './events/DeliveryCreated';
 import DeliveryFareCalculated from './events/DeliveryFareCalculated';
 import RecipientRequestRejected from './events/RecipientRequestRejected';
 import DeliveryFareAccepted from './events/DeliveryFareAccepted';
+import DeliveryFareRejected from './events/DeliveryFareRejected';
 
 interface DeliveryProperties {
   id: DeliveryId;
@@ -111,6 +112,12 @@ class Delivery extends AggregateRoot {
     this._status = DeliveryStatus.DELIVERY_FARE_ACCEPTED_BY_SENDER;
 
     this.addDomainEvent(new DeliveryFareAccepted(this));
+  }
+
+  public rejectFare() {
+    this._status = DeliveryStatus.DELIVERY_FARE_REJECTED_BY_SENDER;
+
+    this.addDomainEvent(new DeliveryFareRejected(this));
   }
 }
 
