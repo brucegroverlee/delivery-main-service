@@ -1,5 +1,7 @@
 import amqp from 'amqplib';
 
+// process.env.DEBUG = 'server:*';
+
 // MYSQL
 process.env.MYSQL_HOST = 'localhost';
 process.env.MYSQL_PORT = '3306';

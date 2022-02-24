@@ -4,7 +4,7 @@ import DomainEventSubscriber from './DomainEventSubscriber';
 
 interface EventBus {
   publish(events: Array<DomainEvent>): Promise<void>;
-  addSubscribers(subscribers: Array<DomainEventSubscriber<DomainEvent>>): void;
+  addSubscribers(subscribers: Array<DomainEventSubscriber>): void;
 }
 
 export default EventBus;

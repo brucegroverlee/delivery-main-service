@@ -16,9 +16,4 @@ abstract class DomainEvent {
   }
 }
 
-export type DomainEventClass = {
-  EVENT_NAME: string;
-  fromJSON(...args: any[]): DomainEvent;
-};
-
 export default DomainEvent;

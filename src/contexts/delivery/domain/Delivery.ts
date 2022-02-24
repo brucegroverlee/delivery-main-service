@@ -119,6 +119,12 @@ class Delivery extends AggregateRoot {
 
     this.addDomainEvent(new DeliveryFareRejected(this));
   }
+
+  public assignCarrier(carrierId: CarrierId) {
+    this._status = DeliveryStatus.CARRIER_ASSIGNED;
+
+    this._carrierId = carrierId;
+  }
 }
 
 export default Delivery;

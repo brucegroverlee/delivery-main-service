@@ -9,6 +9,7 @@ const deliveryDomainEventMapper: DTOMapper = {
       toDTO(): DeliveryDomainEventDTO {
         return {
           delivery: deliveryMapper.fromDomain(domainEvent.delivery).toDTO(),
+          eventName: domainEvent.eventName,
           aggregateId: domainEvent.aggregateId.value,
           eventId: domainEvent.eventId,
           occurredOn: domainEvent.occurredOn,

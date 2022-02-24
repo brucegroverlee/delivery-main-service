@@ -1,5 +1,5 @@
 import DomainEvent from '../../domain/bus/DomainEvent';
-import IDomainEventSubscriber from '../../domain/bus/DomainEventSubscriber';
+import DomainEventSubscriber from '../../domain/bus/DomainEventSubscriber';
 import EventBus from '../../domain/bus/EventBus';
 import RabbitmqApp, { rabbitmqApp } from '../../../../infrastructure/rabbitmq/RabbitmqApp';
 import deliveryDomainEventMapper from '../../../delivery/infrastructure/DeliveryDomainEventMapper';
@@ -13,9 +13,12 @@ class RabbitMQEventBus implements EventBus {
     });
   }
 
-  addSubscribers(subscribers: IDomainEventSubscriber<DomainEvent>[]): void {
-    // TO-DO
-    console.log(subscribers);
+  addSubscribers(subscribers: DomainEventSubscriber[]): void {
+    subscribers.forEach((subscriber) => {
+      subscriber.subscribedTo().forEach((domainEvent) => {
+        this.mq.subscribe(domainEvent, subscriber.on.bind(subscriber));
+      });
+    });
   }
 }
 

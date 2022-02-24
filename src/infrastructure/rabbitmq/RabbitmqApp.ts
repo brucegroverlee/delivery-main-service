@@ -4,7 +4,9 @@ import config from '../config';
 
 const logger = debug('server:infrastructure:RabbitmqApp');
 
-interface SubscriberPayload extends Object {}
+interface SubscriberPayload {
+  [key: string]: any;
+}
 
 type SubscriberCallback = (data: SubscriberPayload) => Promise<void>;
 
@@ -82,20 +84,28 @@ class RabbitmqApp {
       return;
     }
 
-    const topicName: string = payload.fields.routingKey;
-    const message = JSON.parse(payload.content.toString());
+    try {
+      const topicName: string = payload.fields.routingKey;
+      const message = JSON.parse(payload.content.toString());
 
-    logger(`[<= Recieved] ${topicName}:'${message}'`);
+      logger(`[<= Recieved] ${topicName}:'${payload.content.toString()}'`);
 
-    if (this.topicNames[topicName]) {
-      const callbacks = this.topicNames[topicName].map((callback) => callback(message));
+      if (this.topicNames[topicName]) {
+        const callbacks = this.topicNames[topicName].map((callback) => callback(message));
 
-      await Promise.all(callbacks);
-    } else {
-      logger(`There is not a saved callback for this 'topic name': ${topicName}`);
+        await Promise.all(callbacks);
+
+        await this.channel!.ack(payload);
+      } else {
+        await this.channel!.nack(payload);
+
+        logger(`There is not a saved callback for this 'topic name': ${topicName}`);
+      }
+    } catch (error) {
+      await this.channel!.nack(payload);
+
+      console.error(error);
     }
-
-    await this.channel!.ack(payload);
   }
 
   public publish(topicName: string, message: SubscriberPayload): void {
