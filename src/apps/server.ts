@@ -5,11 +5,11 @@ import { rabbitmqApp } from '../infrastructure/rabbitmq/RabbitmqApp';
 
 import swaggerRouter from '../infrastructure/swagger/swaggerRouter';
 import deliveryRouter from '../contexts/delivery/infrastructure/express/router';
-import { assignCarrierIdSubscriber } from '../contexts/delivery/infrastructure/subscribers/AssignCarrierIdSubscriber/AssignCarrierIdSubscriber';
+import deliverySubscribers from '../contexts/delivery/infrastructure/subscribers';
 
 const httpServer = new ExpressApp([swaggerRouter, deliveryRouter]);
 
-rabbitMQEventBus.addSubscribers([assignCarrierIdSubscriber]);
+rabbitMQEventBus.addSubscribers(deliverySubscribers);
 
 httpServer.start([sequelizeApp.connect(), rabbitmqApp.connect()]);
 
