@@ -18,8 +18,10 @@ import senderAcceptDeliveryFare from './controllers/senderAcceptDeliveryFare';
 import senderAcceptDeliveryFareParamsSchema from './controllers/senderAcceptDeliveryFare/paramsSchema';
 
 import senderRejectDeliveryFare from './controllers/senderRejectDeliveryFare';
-
 import carrierArriveSenderLocation from './controllers/carrierArriveSenderLocation';
+import startDelivery from './controllers/startDelivery';
+import carrierArriveRecipientLocation from './controllers/carrierArriveRecipientLocation';
+import recipientAcceptPackage from './controllers/recipientAcceptPackage';
 
 const deliveries = express.Router();
 
@@ -54,6 +56,20 @@ deliveries.patch(
   '/deliveries/:deliveryId/carrier-arrive-sender-location',
   validateParams(deliveryIdParamsSchema),
   carrierArriveSenderLocation(),
+);
+
+deliveries.patch('/deliveries/:deliveryId/start', validateParams(deliveryIdParamsSchema), startDelivery());
+
+deliveries.patch(
+  '/deliveries/:deliveryId/carrier-arrive-recipient-location',
+  validateParams(deliveryIdParamsSchema),
+  carrierArriveRecipientLocation(),
+);
+
+deliveries.patch(
+  '/deliveries/:deliveryId/recipient-accept-package',
+  validateParams(deliveryIdParamsSchema),
+  recipientAcceptPackage(),
 );
 
 export default deliveries;

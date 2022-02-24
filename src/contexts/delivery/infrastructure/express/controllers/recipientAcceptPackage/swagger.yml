@@ -1,0 +1,71 @@
+paths:
+  /deliveries/{deliveryId}/recipient-accept-package:
+    patch:
+      tags:
+        - Deliveries
+      summary: Set recipient accepted the package
+      description: Set recipient accepted the package
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Delivery status has been updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  senderLocation:
+                    $ref: '#/components/schemas/Location'
+                  recipientId:
+                    type: string
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  recipientLocation:
+                    $ref: '#/components/schemas/Location'
+                  status:
+                    type: integer
+                    description:
+                    example: 5
+                  fare:
+                    type: number
+                    nullable: true
+                    description: The price of the ride
+                    example: 18.30
+                  carrierId:
+                    type: string
+                    nullable: true
+                    format: uuid
+                    description: UUIDv4
+                    example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+                  startedTime:
+                    type: string
+                    nullable: true
+                    example: Wed Feb 23 2022 22:13:48 GMT-0500 (Peru Standard Time)
+                  completedTime:
+                    type: string
+                    nullable: true
+                    example: Wed Feb 23 2022 22:13:48 GMT-0500 (Peru Standard Time)
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: Not Acceptable. There is an attribute invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

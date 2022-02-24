@@ -11,6 +11,9 @@ import RecipientRequestRejected from './events/RecipientRequestRejected';
 import DeliveryFareAccepted from './events/DeliveryFareAccepted';
 import DeliveryFareRejected from './events/DeliveryFareRejected';
 import SenderLocationCarrierArrived from './events/SenderLocationCarrierArrived';
+import DeliveryStarted from './events/DeliveryStarted';
+import RecipientLocationCarrierArrived from './events/RecipientLocationCarrierArrived';
+import PackageAccepted from './events/PackageAccepted';
 
 interface DeliveryProperties {
   id: DeliveryId;
@@ -131,6 +134,28 @@ class Delivery extends AggregateRoot {
     this._status = DeliveryStatus.CARRIER_ARRIVED_SENDER_LOCATION;
 
     this.addDomainEvent(new SenderLocationCarrierArrived(this));
+  }
+
+  public start() {
+    this._status = DeliveryStatus.STARTED;
+
+    this._startedTime = new Date();
+
+    this.addDomainEvent(new DeliveryStarted(this));
+  }
+
+  public setCarrierArrivedRecipientLocation() {
+    this._status = DeliveryStatus.ARRIVE_RECIPIENT_LOCATION;
+
+    this.addDomainEvent(new RecipientLocationCarrierArrived(this));
+  }
+
+  public setRecipientAcceptedPackage() {
+    this._status = DeliveryStatus.PACKAGE_ACCEPTED;
+
+    this._completedTime = new Date();
+
+    this.addDomainEvent(new PackageAccepted(this));
   }
 }
 
