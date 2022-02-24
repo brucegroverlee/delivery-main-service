@@ -10,6 +10,7 @@ import DeliveryFareCalculated from './events/DeliveryFareCalculated';
 import RecipientRequestRejected from './events/RecipientRequestRejected';
 import DeliveryFareAccepted from './events/DeliveryFareAccepted';
 import DeliveryFareRejected from './events/DeliveryFareRejected';
+import SenderLocationCarrierArrived from './events/SenderLocationCarrierArrived';
 
 interface DeliveryProperties {
   id: DeliveryId;
@@ -124,6 +125,12 @@ class Delivery extends AggregateRoot {
     this._status = DeliveryStatus.CARRIER_ASSIGNED;
 
     this._carrierId = carrierId;
+  }
+
+  public setCarrierArrivedSenderLocation() {
+    this._status = DeliveryStatus.CARRIER_ARRIVED_SENDER_LOCATION;
+
+    this.addDomainEvent(new SenderLocationCarrierArrived(this));
   }
 }
 

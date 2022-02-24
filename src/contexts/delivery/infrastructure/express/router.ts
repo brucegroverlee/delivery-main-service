@@ -19,6 +19,8 @@ import senderAcceptDeliveryFareParamsSchema from './controllers/senderAcceptDeli
 
 import senderRejectDeliveryFare from './controllers/senderRejectDeliveryFare';
 
+import carrierArriveSenderLocation from './controllers/carrierArriveSenderLocation';
+
 const deliveries = express.Router();
 
 deliveries.post('/deliveries', validateBody(createDeliveryBodySchema), createDeliveryController());
@@ -46,6 +48,12 @@ deliveries.patch(
   '/deliveries/:deliveryId/sender-reject-fare',
   validateParams(deliveryIdParamsSchema),
   senderRejectDeliveryFare(),
+);
+
+deliveries.patch(
+  '/deliveries/:deliveryId/carrier-arrive-sender-location',
+  validateParams(deliveryIdParamsSchema),
+  carrierArriveSenderLocation(),
 );
 
 export default deliveries;
