@@ -157,6 +157,10 @@ class Delivery extends AggregateRoot {
 
     this.addDomainEvent(new PackageAccepted(this));
   }
+
+  public updateAsPaid() {
+    this._status = DeliveryStatus.DELIVERY_PAID;
+  }
 }
 
 export default Delivery;

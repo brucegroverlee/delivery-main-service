@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --no-cache --detectOpenHandles",
+    "test:delivery": "jest --coverage --no-cache --detectOpenHandles --testPathPattern=src/contexts/delivery",
     "dev": "nodemon"
   },
   "author": "Bruce Grover Lee",
