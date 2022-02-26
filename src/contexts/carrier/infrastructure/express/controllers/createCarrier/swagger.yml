@@ -1,0 +1,23 @@
+paths:
+  /carriers:
+    post:
+      tags:
+        - Carriers
+      summary: Create a new carrier
+      description:
+      security:
+        - bearerAuth: []
+
+      responses:
+        '201':
+          description: Carrier has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrier'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

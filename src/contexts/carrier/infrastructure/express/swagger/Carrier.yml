@@ -1,0 +1,21 @@
+components:
+  schemas:
+    Carrier:
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad
+        status:
+          type: integer
+          description:
+          example: 0
+        location:
+          $ref: '#/components/schemas/CarrierLocation'
+        deliveryId:
+          type: string
+          format: uuid
+          nullable: true
+          description: UUIDv4
+          example: 82a05f34-0e04-437c-8d48-e78094ed7aad

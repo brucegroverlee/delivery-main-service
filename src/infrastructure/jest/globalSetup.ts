@@ -19,6 +19,7 @@ process.env.RABBITMQ_QUEUE_TEST = 'delivery_queue_test';
 process.env.RABBITMQ_VHOST = '%2F';
 
 import { DeliveryModel } from '../../contexts/delivery/infrastructure/sequelize/SequelizeDeliveryRepository';
+import { CarrierModel } from '../../contexts/carrier/infrastructure/sequelize/SequelizeCarrierRepository';
 import rabbitmqHttpApi from '../rabbitmq/rabbitmqHttpApi';
 
 async function createRabbitmqQueueTest() {
@@ -50,5 +51,6 @@ async function createRabbitmqQueueTest() {
 export default async () => {
   await createRabbitmqQueueTest();
   await DeliveryModel.truncate();
+  await CarrierModel.truncate();
   await rabbitmqHttpApi.purgeQueue();
 };

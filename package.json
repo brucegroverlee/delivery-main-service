@@ -6,6 +6,9 @@
   "scripts": {
     "test": "jest --coverage --no-cache --detectOpenHandles",
     "test:delivery": "jest --coverage --no-cache --detectOpenHandles --testPathPattern=src/contexts/delivery",
+    "test:carrier": "jest --coverage --no-cache --detectOpenHandles --testPathPattern=src/contexts/carrier",
+    "test:carrier:unit": "jest --coverage --no-cache --detectOpenHandles --testPathPattern=src/contexts/carrier/application",
+    "test:carrier:integration": "jest --coverage --no-cache --detectOpenHandles --testPathPattern=src/contexts/carrier/infrastructure",
     "dev": "nodemon"
   },
   "author": "Bruce Grover Lee",

@@ -1,0 +1,14 @@
+components:
+  schemas:
+    CarrierLocation:
+      properties:
+        address:
+          type: string
+          description: The address reference
+          example: Av. Simón Bolivar, Pueblo Libre 15084
+        latitude:
+          type: number
+          example: -12.070990
+        longitude:
+          type: number
+          example: -77.074926
