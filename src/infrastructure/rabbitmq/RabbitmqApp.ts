@@ -99,12 +99,12 @@ class RabbitmqApp {
 
         await this.channel!.ack(payload);
       } else {
-        // await this.channel!.nack(payload);
+        if (!process.env.TEST_CONTEXT) await this.channel!.nack(payload);
 
         logger(`There is not a saved callback for this 'topic name': ${topicName}`);
       }
     } catch (error) {
-      // await this.channel!.nack(payload);
+      if (!process.env.TEST_CONTEXT) await this.channel!.nack(payload);
 
       console.error(error);
     }
