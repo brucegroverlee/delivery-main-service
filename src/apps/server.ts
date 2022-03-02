@@ -1,5 +1,5 @@
 import ExpressApp from '../infrastructure/express/ExpressApp';
-import { rabbitMQEventBus } from '../contexts/shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../contexts/shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import { sequelizeApp } from '../infrastructure/sequelize/SequelizeApp';
 import { rabbitmqApp } from '../infrastructure/rabbitmq/RabbitmqApp';
 
@@ -11,8 +11,8 @@ import carrierSubscribers from '../contexts/carrier/infrastructure/subscribers';
 
 const httpServer = new ExpressApp([swaggerRouter, deliveryRouter, carrierRouter]);
 
-rabbitMQEventBus.addSubscribers(deliverySubscribers);
-rabbitMQEventBus.addSubscribers(carrierSubscribers);
+RabbitMQEventBus.addSubscribers(deliverySubscribers);
+RabbitMQEventBus.addSubscribers(carrierSubscribers);
 
 httpServer.start([sequelizeApp.connect(), rabbitmqApp.connect()]);
 

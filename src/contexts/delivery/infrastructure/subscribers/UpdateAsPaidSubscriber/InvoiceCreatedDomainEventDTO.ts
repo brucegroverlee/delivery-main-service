@@ -7,7 +7,7 @@ interface InvoiceDTO {
 }
 
 interface InvoiceCreatedDomainEventDTO extends DomainEventDTO {
-  invoice: InvoiceDTO;
+  data: InvoiceDTO;
 }
 
 export default InvoiceCreatedDomainEventDTO;

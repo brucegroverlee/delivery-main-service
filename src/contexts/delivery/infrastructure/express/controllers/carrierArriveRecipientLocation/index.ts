@@ -3,22 +3,24 @@ import NotAcceptableError from '../../../../../../infrastructure/express/errors/
 import InvalidArgumentError from '../../../../../shared/domain/valueObject/InvalidArgumentError';
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { sequelizeDeliveryRepository } from '../../../sequelize/SequelizeDeliveryRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import CarrierArriveRecipientLocation, {
   CarrierArriveRecipientLocationData,
 } from '../../../../application/CarrierArriveRecipientLocation';
 import deliveryMapper from '../../../DeliveryMapper';
 import DeliveryId from '../../../../domain/DeliveryId';
+import deliveryDomainEventMapper from '../../../DeliveryDomainEventMapper';
 
 interface CarrierArriveRecipientLocationControllerParams {
   deliveryId: string;
 }
 
 function carrierArriveRecipientLocationController() {
+  const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
   const carrierArriveRecipientLocation = new CarrierArriveRecipientLocation(
     sequelizeDeliveryRepository,
-    rabbitMQEventBus,
+    eventBus,
     presenter,
   );
 

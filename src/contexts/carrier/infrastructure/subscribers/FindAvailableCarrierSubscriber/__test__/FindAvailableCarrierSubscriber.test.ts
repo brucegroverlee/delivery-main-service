@@ -1,6 +1,6 @@
 import { rabbitmqApp } from '../../../../../../infrastructure/rabbitmq/RabbitmqApp';
 import rabbitmqHttpApi from '../../../../../../infrastructure/rabbitmq/rabbitmqHttpApi';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import CarrierStatus from '../../../../domain/CarrierStatus';
 import CarrierAssignedDomainEvent from '../../../../domain/CarrierAssignedDomainEvent';
 import { CarrierModel } from '../../../sequelize/SequelizeCarrierRepository';
@@ -12,7 +12,7 @@ jest.setTimeout(10000);
 
 describe('SUBSCRIBER => FindAvailableCarrierSubscriber', () => {
   beforeAll(async () => {
-    rabbitMQEventBus.addSubscribers([findAvailableCarrierSubscriber]);
+    RabbitMQEventBus.addSubscribers([findAvailableCarrierSubscriber]);
 
     await rabbitmqApp.connect();
   });
@@ -26,8 +26,8 @@ describe('SUBSCRIBER => FindAvailableCarrierSubscriber', () => {
     const { deliveryId } = await FindAvailableCarrierSubscriberMother.givenAnAvailableCarrier();
 
     /* When */
-    rabbitmqApp.publish('domain_event.delivery.fare_accepted', {
-      delivery: {
+    rabbitmqApp.publish('test.domain_event.delivery.fare_accepted', {
+      data: {
         id: deliveryId,
         senderLocation: {
           address: '',
@@ -35,7 +35,7 @@ describe('SUBSCRIBER => FindAvailableCarrierSubscriber', () => {
           longitude: 0,
         },
       },
-      eventName: 'domain_event.delivery.fare_accepted',
+      eventName: 'test.domain_event.delivery.fare_accepted',
       aggregateId: deliveryId,
       eventId: 'a65a85d7-d3db-4311-a00f-0de271792e0d',
       occurredOn: '2022-02-18T03:05:41.772Z',
@@ -57,6 +57,6 @@ describe('SUBSCRIBER => FindAvailableCarrierSubscriber', () => {
       eventName: CarrierAssignedDomainEvent.EVENT_NAME,
     });
     expect(domainEvent as CarrierDomainEventDTO).not.toBeNull();
-    expect((domainEvent as CarrierDomainEventDTO)?.carrier).toMatchObject(expectedData);
+    expect((domainEvent as CarrierDomainEventDTO)?.data).toMatchObject(expectedData);
   });
 });

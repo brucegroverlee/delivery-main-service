@@ -1,11 +1,12 @@
 import DomainEventSubscriber from '../../../../shared/domain/bus/DomainEventSubscriber';
 import EventPresenter from '../../../../shared/infrastructure/bus/EventPresenter';
-import { rabbitMQEventBus } from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import FindAvailableCarrier, {
   FindAvailableCarrierData,
 } from '../../../application/findAvailableCarrier/FindAvailableCarrier';
 import CarrierLocation from '../../../domain/CarrierLocation';
 import DeliveryId from '../../../domain/DeliveryId';
+import carrierDomainEventMapper from '../../CarrierDomainEventMapper';
 import carrierMapper from '../../CarrierMapper';
 import { sequelizeCarrierFinderService } from '../../sequelize/SequelizeCarrierFinderService';
 import { sequelizeCarrierRepository } from '../../sequelize/SequelizeCarrierRepository';
@@ -16,11 +17,12 @@ class FindAvailableCarrierSubscriber implements DomainEventSubscriber {
   private findAvailableCarrier: FindAvailableCarrier;
 
   constructor() {
+    const eventBus = new RabbitMQEventBus(carrierDomainEventMapper);
     this.presenter = new EventPresenter(carrierMapper);
     this.findAvailableCarrier = new FindAvailableCarrier(
       sequelizeCarrierFinderService,
       sequelizeCarrierRepository,
-      rabbitMQEventBus,
+      eventBus,
       this.presenter,
     );
   }
@@ -34,7 +36,7 @@ class FindAvailableCarrierSubscriber implements DomainEventSubscriber {
 
     const data: FindAvailableCarrierData = {
       deliveryId: DeliveryId.create(domainEventDTO.aggregateId),
-      location: CarrierLocation.create(domainEventDTO.delivery.senderLocation),
+      location: CarrierLocation.create(domainEventDTO.data.senderLocation),
     };
 
     await this.findAvailableCarrier.run(data);

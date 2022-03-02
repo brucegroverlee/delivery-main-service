@@ -4,12 +4,13 @@ import InvalidArgumentError from '../../../../../shared/domain/valueObject/Inval
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { googleMapsDeliveryFareCalculator } from '../../../googleMaps/GoogleMapsDeliveryFareCalculator';
 import { sequelizeDeliveryRepository } from '../../../sequelize/SequelizeDeliveryRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import RecipientAcceptRequest, { RecipientAcceptRequestData } from '../../../../application/RecipientAcceptRequest';
 import deliveryMapper from '../../../DeliveryMapper';
 import LocationDTO from '../../../LocationDTO';
 import DeliveryId from '../../../../domain/DeliveryId';
 import Location from '../../../../domain/Location';
+import deliveryDomainEventMapper from '../../../DeliveryDomainEventMapper';
 
 interface RecipientAcceptRequestControllerParams {
   deliveryId: string;
@@ -19,11 +20,12 @@ interface RecipientAcceptRequestControllerBody {
 }
 
 function recipientAcceptRequestController() {
+  const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
   const recipientAcceptRequest = new RecipientAcceptRequest(
     googleMapsDeliveryFareCalculator,
     sequelizeDeliveryRepository,
-    rabbitMQEventBus,
+    eventBus,
     presenter,
   );
 

@@ -37,7 +37,7 @@ describe('PATCH /deliveries/:deliveryId/start', () => {
       eventName: DeliveryStarted.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery.startedTime).not.toBeNull();
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
+    expect((domainEvent as DeliveryDomainEventDTO)?.data.startedTime).not.toBeNull();
   });
 });

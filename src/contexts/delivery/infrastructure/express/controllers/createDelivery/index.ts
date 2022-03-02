@@ -3,12 +3,13 @@ import NotAcceptableError from '../../../../../../infrastructure/express/errors/
 import InvalidArgumentError from '../../../../../shared/domain/valueObject/InvalidArgumentError';
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { sequelizeDeliveryRepository } from '../../../sequelize/SequelizeDeliveryRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import CreateDelivery, { CreateDeliveryData } from '../../../../application/CreateDelivery';
 import deliveryMapper from '../../../DeliveryMapper';
 import UserId from '../../../../domain/UserId';
 import Location from '../../../../domain/Location';
 import LocationDTO from '../../../LocationDTO';
+import deliveryDomainEventMapper from '../../../DeliveryDomainEventMapper';
 
 interface CreateDeliveryControllerBody {
   senderId: string;
@@ -18,8 +19,9 @@ interface CreateDeliveryControllerBody {
 }
 
 function createDeliveryController() {
+  const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
-  const createDelivery = new CreateDelivery(sequelizeDeliveryRepository, rabbitMQEventBus, presenter);
+  const createDelivery = new CreateDelivery(sequelizeDeliveryRepository, eventBus, presenter);
 
   return async (request: Request, response: Response, next: NextFunction) => {
     try {

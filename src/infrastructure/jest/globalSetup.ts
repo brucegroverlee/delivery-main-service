@@ -44,13 +44,16 @@ async function createRabbitmqQueueTest() {
   });
 
   await channel.bindQueue(QUEUE_TEST, process.env.RABBITMQ_EXCHANGE as string, 'domain_event.#');
+  // await channel.bindQueue(QUEUE_TEST, process.env.RABBITMQ_EXCHANGE as string, 'test.domain_event.#');
 
   await connection.close();
 }
 
 export default async () => {
   await createRabbitmqQueueTest();
+  await DeliveryModel.sync();
   await DeliveryModel.truncate();
+  await CarrierModel.sync();
   await CarrierModel.truncate();
   await rabbitmqHttpApi.purgeQueue();
 };

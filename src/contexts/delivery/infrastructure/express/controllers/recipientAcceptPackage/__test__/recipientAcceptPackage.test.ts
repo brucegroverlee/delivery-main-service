@@ -36,7 +36,7 @@ describe('PATCH /deliveries/:deliveryId/recipient-accept-package', () => {
       eventName: PackageAccepted.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery.completedTime).not.toBeNull();
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
+    expect((domainEvent as DeliveryDomainEventDTO)?.data.completedTime).not.toBeNull();
   });
 });

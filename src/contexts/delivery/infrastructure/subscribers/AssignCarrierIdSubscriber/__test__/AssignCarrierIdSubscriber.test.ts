@@ -1,5 +1,5 @@
 import { rabbitmqApp } from '../../../../../../infrastructure/rabbitmq/RabbitmqApp';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import DeliveryStatus from '../../../../domain/DeliveryStatus';
 import { DeliveryModel } from '../../../sequelize/SequelizeDeliveryRepository';
 import { assignCarrierIdSubscriber } from '../AssignCarrierIdSubscriber';
@@ -9,7 +9,7 @@ jest.setTimeout(10000);
 
 describe('SUBSCRIBER => AssignCarrierIdSubscriber', () => {
   beforeAll(async () => {
-    rabbitMQEventBus.addSubscribers([assignCarrierIdSubscriber]);
+    RabbitMQEventBus.addSubscribers([assignCarrierIdSubscriber]);
 
     await rabbitmqApp.connect();
   });
@@ -23,12 +23,12 @@ describe('SUBSCRIBER => AssignCarrierIdSubscriber', () => {
     const { delivery } = await AssignCarrierIdSubscriberMother.givenADeliveryWithFareAccepted();
 
     /* When */
-    rabbitmqApp.publish('domain_event.carrier.assigned', {
-      carrier: {
+    rabbitmqApp.publish('test.domain_event.carrier.assigned', {
+      data: {
         id: 'ba9d8cff-814e-41ba-ab13-0cf4eee8eb4c',
         deliveryId: delivery.id,
       },
-      eventName: 'domain_event.carrier.assigned',
+      eventName: 'test.domain_event.carrier.assigned',
       aggregateId: 'ba9d8cff-814e-41ba-ab13-0cf4eee8eb4c',
       eventId: 'a65a85d7-d3db-4311-a00f-0de271792e0d',
       occurredOn: '2022-02-18T03:05:41.772Z',

@@ -4,11 +4,11 @@ import Carrier from './Carrier';
 class CarrierDomainEvent extends DomainEvent {
   static readonly EVENT_NAME = 'domain_event.carrier.assigned';
 
-  readonly carrier: Carrier;
+  readonly data: Carrier;
 
   constructor(carrier: Carrier) {
     super(CarrierDomainEvent.EVENT_NAME, carrier.id);
-    this.carrier = carrier;
+    this.data = carrier;
   }
 }
 

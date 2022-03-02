@@ -1,9 +1,10 @@
 import DomainEventSubscriber from '../../../../shared/domain/bus/DomainEventSubscriber';
 import EventPresenter from '../../../../shared/infrastructure/bus/EventPresenter';
-import { rabbitMQEventBus } from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import AssignCarrierId, { AssignCarrierIdData } from '../../../application/AssignCarrierId';
 import CarrierId from '../../../domain/CarrierId';
 import DeliveryId from '../../../domain/DeliveryId';
+import deliveryDomainEventMapper from '../../DeliveryDomainEventMapper';
 import deliveryMapper from '../../DeliveryMapper';
 import { sequelizeDeliveryRepository } from '../../sequelize/SequelizeDeliveryRepository';
 import CarrierAssignedDomainEventDTO from './CarrierAssignedDomainEventDTO';
@@ -13,8 +14,9 @@ class AssignCarrierIdSubscriber implements DomainEventSubscriber {
   private assignCarrierId: AssignCarrierId;
 
   constructor() {
+    const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
     this.presenter = new EventPresenter(deliveryMapper);
-    this.assignCarrierId = new AssignCarrierId(sequelizeDeliveryRepository, rabbitMQEventBus, this.presenter);
+    this.assignCarrierId = new AssignCarrierId(sequelizeDeliveryRepository, eventBus, this.presenter);
   }
 
   subscribedTo(): string[] {
@@ -25,7 +27,7 @@ class AssignCarrierIdSubscriber implements DomainEventSubscriber {
     this.presenter.setEventName(domainEventDTO.eventName);
 
     const data: AssignCarrierIdData = {
-      deliveryId: DeliveryId.create(domainEventDTO.carrier.deliveryId),
+      deliveryId: DeliveryId.create(domainEventDTO.data.deliveryId),
       carrierId: CarrierId.create(domainEventDTO.aggregateId),
     };
 

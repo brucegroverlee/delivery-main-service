@@ -44,7 +44,7 @@ describe('PATCH /deliveries/:deliveryId/recipient-accept-request', () => {
       eventName: DeliveryFareCalculated.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
-    expect(typeof (domainEvent as DeliveryDomainEventDTO)?.delivery.fare).toBe('number');
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
+    expect(typeof (domainEvent as DeliveryDomainEventDTO)?.data.fare).toBe('number');
   });
 });

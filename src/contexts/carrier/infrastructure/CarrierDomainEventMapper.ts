@@ -8,7 +8,7 @@ const carrierDomainEventMapper: DTOMapper = {
     return {
       toDTO(): CarrierDomainEventDTO {
         return {
-          carrier: carrierMapper.fromDomain(domainEvent.carrier).toDTO(),
+          data: carrierMapper.fromDomain(domainEvent.data).toDTO(),
           eventName: domainEvent.eventName,
           aggregateId: domainEvent.aggregateId.value,
           eventId: domainEvent.eventId,

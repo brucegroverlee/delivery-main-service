@@ -3,24 +3,22 @@ import NotAcceptableError from '../../../../../../infrastructure/express/errors/
 import InvalidArgumentError from '../../../../../shared/domain/valueObject/InvalidArgumentError';
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { sequelizeDeliveryRepository } from '../../../sequelize/SequelizeDeliveryRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import CarrierArriveSenderLocation, {
   CarrierArriveSenderLocationData,
 } from '../../../../application/CarrierArriveSenderLocation';
 import deliveryMapper from '../../../DeliveryMapper';
 import DeliveryId from '../../../../domain/DeliveryId';
+import deliveryDomainEventMapper from '../../../DeliveryDomainEventMapper';
 
 interface CarrierArriveSenderLocationControllerParams {
   deliveryId: string;
 }
 
 function carrierArriveSenderLocationController() {
+  const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
-  const carrierArriveSenderLocation = new CarrierArriveSenderLocation(
-    sequelizeDeliveryRepository,
-    rabbitMQEventBus,
-    presenter,
-  );
+  const carrierArriveSenderLocation = new CarrierArriveSenderLocation(sequelizeDeliveryRepository, eventBus, presenter);
 
   return async (request: Request, response: Response, next: NextFunction) => {
     try {

@@ -38,6 +38,6 @@ describe('PATCH /deliveries/:deliveryId/recipient-reject-request', () => {
       eventName: RecipientRequestRejected.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
   });
 });

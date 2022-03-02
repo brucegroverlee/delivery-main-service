@@ -23,6 +23,8 @@ class FindAvailableCarrier {
 
     const carrier = await this.finderService.findAvailable(location);
 
+    if (!carrier) throw new Error(`There is not a Carrier available`);
+
     carrier.assignDelivery(deliveryId);
 
     await this.repository.update(carrier);

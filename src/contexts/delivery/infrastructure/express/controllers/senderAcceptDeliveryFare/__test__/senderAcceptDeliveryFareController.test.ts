@@ -38,6 +38,6 @@ describe('PATCH /deliveries/:deliveryId/sender-accept-fare', () => {
       eventName: DeliveryFareAccepted.EVENT_NAME,
     });
     expect(domainEvent).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
   });
 });

@@ -46,6 +46,6 @@ describe('POST /deliveries', () => {
       eventName: DeliveryCreated.EVENT_NAME,
     });
     expect(domainEvent as DeliveryDomainEventDTO).not.toBeNull();
-    expect((domainEvent as DeliveryDomainEventDTO)?.delivery).toMatchObject(expectedData);
+    expect((domainEvent as DeliveryDomainEventDTO)?.data).toMatchObject(expectedData);
   });
 });

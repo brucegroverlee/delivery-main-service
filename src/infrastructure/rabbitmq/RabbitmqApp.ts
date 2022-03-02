@@ -36,10 +36,12 @@ class RabbitmqApp {
   }
 
   public subscribe(topicName: string, callback: SubscriberCallback): void {
-    if (this.topicNames[topicName]) {
-      this.topicNames[topicName].push(callback);
+    const _topicName = process.env.TEST_CONTEXT ? 'test.' + topicName : topicName;
+
+    if (this.topicNames[_topicName]) {
+      this.topicNames[_topicName].push(callback);
     } else {
-      this.topicNames[topicName] = [callback];
+      this.topicNames[_topicName] = [callback];
     }
   }
 
@@ -97,12 +99,12 @@ class RabbitmqApp {
 
         await this.channel!.ack(payload);
       } else {
-        await this.channel!.nack(payload);
+        // await this.channel!.nack(payload);
 
         logger(`There is not a saved callback for this 'topic name': ${topicName}`);
       }
     } catch (error) {
-      await this.channel!.nack(payload);
+      // await this.channel!.nack(payload);
 
       console.error(error);
     }

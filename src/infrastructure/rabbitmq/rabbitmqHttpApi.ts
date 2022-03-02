@@ -41,7 +41,7 @@ const rabbitmqHttpApi = {
   },
   async findMessage(query: MessageQuery): Promise<Message[]> {
     const data = JSON.stringify({
-      count: 10,
+      count: 100,
       ackmode: 'ack_requeue_true',
       encoding: 'auto',
     });

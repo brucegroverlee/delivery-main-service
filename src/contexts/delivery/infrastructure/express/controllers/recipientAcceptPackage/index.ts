@@ -3,18 +3,20 @@ import NotAcceptableError from '../../../../../../infrastructure/express/errors/
 import InvalidArgumentError from '../../../../../shared/domain/valueObject/InvalidArgumentError';
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { sequelizeDeliveryRepository } from '../../../sequelize/SequelizeDeliveryRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import RecipientAcceptPackage, { RecipientAcceptPackageData } from '../../../../application/RecipientAcceptPackage';
 import deliveryMapper from '../../../DeliveryMapper';
 import DeliveryId from '../../../../domain/DeliveryId';
+import deliveryDomainEventMapper from '../../../DeliveryDomainEventMapper';
 
 interface RecipientAcceptPackageControllerParams {
   deliveryId: string;
 }
 
 function recipientAcceptPackageController() {
+  const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
-  const recipientAcceptPackage = new RecipientAcceptPackage(sequelizeDeliveryRepository, rabbitMQEventBus, presenter);
+  const recipientAcceptPackage = new RecipientAcceptPackage(sequelizeDeliveryRepository, eventBus, presenter);
 
   return async (request: Request, response: Response, next: NextFunction) => {
     try {

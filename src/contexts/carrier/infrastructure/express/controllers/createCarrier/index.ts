@@ -3,13 +3,15 @@ import NotAcceptableError from '../../../../../../infrastructure/express/errors/
 import InvalidArgumentError from '../../../../../shared/domain/valueObject/InvalidArgumentError';
 import ExpressPresenter from '../../../../../shared/infrastructure/express/ExpressPresenter';
 import { sequelizeCarrierRepository } from '../../../sequelize/SequelizeCarrierRepository';
-import { rabbitMQEventBus } from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
 import CreateCarrier from '../../../../application/createCarrier/CreateCarrier';
 import deliveryMapper from '../../../CarrierMapper';
+import carrierDomainEventMapper from '../../../CarrierDomainEventMapper';
 
 function createCarrierController() {
+  const eventBus = new RabbitMQEventBus(carrierDomainEventMapper);
   const presenter = new ExpressPresenter(deliveryMapper);
-  const createCarrier = new CreateCarrier(sequelizeCarrierRepository, rabbitMQEventBus, presenter);
+  const createCarrier = new CreateCarrier(sequelizeCarrierRepository, eventBus, presenter);
 
   return async (request: Request, response: Response, next: NextFunction) => {
     try {

@@ -1,6 +1,7 @@
 import DomainEventSubscriber from '../../../../shared/domain/bus/DomainEventSubscriber';
 import EventPresenter from '../../../../shared/infrastructure/bus/EventPresenter';
-import { rabbitMQEventBus } from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import RabbitMQEventBus from '../../../../shared/infrastructure/rabbitmq/RabbitMQEventBus';
+import deliveryDomainEventMapper from '../../DeliveryDomainEventMapper';
 import UpdateAsPaid, { UpdateAsPaidData } from '../../../application/UpdateAsPaid';
 import DeliveryId from '../../../domain/DeliveryId';
 import deliveryMapper from '../../DeliveryMapper';
@@ -12,8 +13,9 @@ class UpdateAsPaidSubscriber implements DomainEventSubscriber {
   private UpdateAsPaid: UpdateAsPaid;
 
   constructor() {
+    const eventBus = new RabbitMQEventBus(deliveryDomainEventMapper);
     this.presenter = new EventPresenter(deliveryMapper);
-    this.UpdateAsPaid = new UpdateAsPaid(sequelizeDeliveryRepository, rabbitMQEventBus, this.presenter);
+    this.UpdateAsPaid = new UpdateAsPaid(sequelizeDeliveryRepository, eventBus, this.presenter);
   }
 
   subscribedTo(): string[] {
@@ -24,7 +26,7 @@ class UpdateAsPaidSubscriber implements DomainEventSubscriber {
     this.presenter.setEventName(domainEventDTO.eventName);
 
     const data: UpdateAsPaidData = {
-      deliveryId: DeliveryId.create(domainEventDTO.invoice.deliveryId),
+      deliveryId: DeliveryId.create(domainEventDTO.data.deliveryId),
     };
 
     await this.UpdateAsPaid.run(data);

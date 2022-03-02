@@ -6,7 +6,7 @@ interface CarrierDTO {
 }
 
 interface CarrierAssignedDomainEventDTO extends DomainEventDTO {
-  carrier: CarrierDTO;
+  data: CarrierDTO;
 }
 
 export default CarrierAssignedDomainEventDTO;
